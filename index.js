@@ -76,6 +76,19 @@ function validateCourse(course) {
   return scheema.validate(course);
 }
 
+app.delete('/api/courses/:id', (req, res) => {
+  // Look up the course
+  const course = courses.find((it) => it.id === parseInt(req.params.id));
+  if (!course) return res.status(404).send('The given id is not found');
+
+  // delete
+  const index = courses.indexOf(course);
+  courses.splice(index, 1);
+
+  // return response
+  res.send(course);
+});
+
 // Creating Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
